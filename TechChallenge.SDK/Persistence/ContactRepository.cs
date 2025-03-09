@@ -19,7 +19,7 @@ namespace TechChallenge.SDK.Persistence
         {
             await _retryPolicy.ExecuteAsync(async () =>
             {
-                await _context.Set<Contact>().AddAsync(entity);
+                await _context.Contacts.AddAsync(entity);
                 await _context.SaveChangesAsync();
             });
         }
@@ -28,7 +28,7 @@ namespace TechChallenge.SDK.Persistence
         {
             await _retryPolicy.ExecuteAsync(async () =>
             {
-                _context.Set<Contact>().Update(entity);
+                _context.Contacts.Update(entity);
                 await _context.SaveChangesAsync();
             });
         }
@@ -42,17 +42,17 @@ namespace TechChallenge.SDK.Persistence
             });
         }
 
-        public async Task<Contact?> GetByIdAsync(int id)
+        public async Task<Contact?> GetByIdAsync(Guid id)
         {
             return await _retryPolicy.ExecuteAsync(async () =>
             {
-                return await _context.Set<Contact>().FindAsync(id);
+                return await _context.Contacts.FindAsync(id);
             });
         }
 
         public IQueryable<Contact> Query()
         {
-            return _context.Set<Contact>().AsQueryable();
+            return _context.Contacts.AsQueryable();
         }
     }
 }

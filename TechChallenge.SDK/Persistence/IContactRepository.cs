@@ -7,7 +7,7 @@ namespace TechChallenge.SDK.Persistence
         Task AddAsync(Contact entity);
         Task UpdateAsync(Contact entity);
         Task DeleteAsync(Contact entity);
-        Task<Contact?> GetByIdAsync(int id);
+        Task<Contact?> GetByIdAsync(Guid id);
         IQueryable<Contact> Query();
     }
 }
