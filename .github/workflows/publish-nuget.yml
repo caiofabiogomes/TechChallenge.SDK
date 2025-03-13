@@ -3,7 +3,7 @@ name: Publish NuGet Package
 on:
   push:
     branches:
-      - master  
+      - main  # Altere para a branch desejada
 
 jobs:
   publish:
@@ -13,11 +13,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name:  .NET Config
+      - name: .NET Config
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'   
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
 
       - name: Restore Dependencies
         run: dotnet restore
@@ -31,7 +33,7 @@ jobs:
       - name: Publish in GitHub Packages
         run: dotnet nuget push nupkgs/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
 
       - name: Clean Packages Locally
         run: rm -rf nupkgs/
