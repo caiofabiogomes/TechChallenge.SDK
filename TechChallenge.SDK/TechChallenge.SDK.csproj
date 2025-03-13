@@ -9,7 +9,12 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
     </PropertyGroup>
-
+<PropertyGroup>
+    <PackageId>DotnetSDK</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>CAIO</Authors>
+    <RepositoryUrl>https://github.com/caiofabiogomes/TechChallenge.SDK</RepositoryUrl>
+</PropertyGroup>
 
     <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
