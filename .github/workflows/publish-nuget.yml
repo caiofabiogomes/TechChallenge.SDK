@@ -47,9 +47,9 @@ jobs:
     - name: Determine package version
       id: versioning
       run: |
-        # Obtém a última tag no formato vX.Y.Z
-        LAST_TAG=$(git describe --tags --match "v[0-9]*" --abbrev=0 2>/dev/null || echo "")
-
+        # Obter a última tag (assumindo que a tag segue o formato vX.Y.Z)
+        LAST_TAG=$(git tag --sort=-v:refname | head -n 1)
+        
         if [[ -z "$LAST_TAG" ]]; then
           # Se não houver tags, começa em 1.0.0
           VERSION="1.0.0"
@@ -60,14 +60,17 @@ jobs:
           # Extrai os números X.Y.Z da versão
           MAJOR=$(echo "$BASE_VERSION" | cut -d. -f1)
           MINOR=$(echo "$BASE_VERSION" | cut -d. -f2)
+          PATCH=$(echo "$BASE_VERSION" | cut -d. -f3)
           
-          # Incrementa o número menor (Y+1), mantém Z como 0
+          # Incrementa o número menor (MINOR+1) e zera o PATCH
           NEW_MINOR=$((MINOR + 1))
           VERSION="$MAJOR.$NEW_MINOR.0"
         fi
-
+        
+        # Exibe a versão gerada
         echo "PACKAGE_VERSION=$VERSION"
         echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
+
 
     - name: Create NuGet package
       run: dotnet pack --configuration Release --no-build --output ${{ env.PACKAGE_OUTPUT_DIR }} --property:Version=${{ env.PACKAGE_VERSION }}
