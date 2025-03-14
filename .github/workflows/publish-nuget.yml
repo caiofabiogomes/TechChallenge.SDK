@@ -81,8 +81,6 @@ jobs:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create and push new Git tag
-      env:
-        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
