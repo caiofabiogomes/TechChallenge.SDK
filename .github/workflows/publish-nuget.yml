@@ -78,8 +78,11 @@ jobs:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create and push new Git tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git tag "v${{ env.PACKAGE_VERSION }}"
-        git push origin "v${{ env.PACKAGE_VERSION }}"
+        git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/caiofabiogomes/TechChallenge.SDK.git "v${{ env.PACKAGE_VERSION }}"
+
