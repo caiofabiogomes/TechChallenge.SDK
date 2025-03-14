@@ -10,9 +10,8 @@
         <OutputType>Library</OutputType>
     </PropertyGroup>
 <PropertyGroup>
-    <PackageId>DotnetSDK</PackageId>
-    <Version>1.0.0</Version>
-    <Authors>CAIO</Authors>
+    <PackageId>TechChallengeFIAP</PackageId>
+    <Authors>Caio Fabio</Authors>
     <RepositoryUrl>https://github.com/caiofabiogomes/TechChallenge.SDK</RepositoryUrl>
 </PropertyGroup>
 
