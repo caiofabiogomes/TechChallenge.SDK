@@ -17,13 +17,73 @@ jobs:
       packages: write
 
     steps:
-      - name: Create and push new Git tag
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git tag "v${{ env.PACKAGE_VERSION }}"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/caiofabiogomes/Tech
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Necessário para obter todas as tags
 
-    
+    - name: Setup .NET 8 SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Add NuGet Source
+      run: |
+        dotnet nuget add source ${{ env.NUGET_SOURCE }} \
+          --name github \
+          --username caiofabiogomes \
+          --password ${{ secrets.GITHUB_TOKEN }} \
+          --store-password-in-clear-text
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal
+
+    - name: Determine package version
+      id: versioning
+      run: |
+        # Obtém a última tag no formato vX.Y.Z
+        LAST_TAG=$(git describe --tags --match "v[0-9]*" --abbrev=0 2>/dev/null || echo "")
+
+        if [[ -z "$LAST_TAG" ]]; then
+          # Se não houver tags, começa em 1.1.0
+          VERSION="1.5.0"
+        else
+          # Remove o "v" do começo da tag
+          BASE_VERSION=${LAST_TAG#v}
+          
+          # Extrai os números X.Y.Z da versão
+          MAJOR=$(echo "$BASE_VERSION" | cut -d. -f1)
+          MINOR=$(echo "$BASE_VERSION" | cut -d. -f2)
+          
+          # Incrementa o número menor (Y+1), mantém Z como 0
+          NEW_MINOR=$((MINOR + 1))
+          VERSION="$MAJOR.$NEW_MINOR.0"
+        fi
+
+        echo "PACKAGE_VERSION=$VERSION"
+        echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Create NuGet package
+      run: dotnet pack --configuration Release --no-build --output ${{ env.PACKAGE_OUTPUT_DIR }} --property:Version=${{ env.PACKAGE_VERSION }}
+
+    - name: Push to GitHub Packages
+      run: dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIR }}/*.nupkg" --source github
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create and push new Git tag
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git tag "v${{ env.PACKAGE_VERSION }}"
+        git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/caiofabiogomes/Tech
+
+
