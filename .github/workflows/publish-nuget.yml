@@ -52,7 +52,7 @@ jobs:
 
         if [[ -z "$LAST_TAG" ]]; then
           # Se não houver tags, começa em 1.1.0
-          VERSION="1.2.0"
+          VERSION="1.3.0"
         else
           # Remove o "v" do começo da tag
           BASE_VERSION=${LAST_TAG#v}
