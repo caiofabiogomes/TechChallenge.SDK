@@ -1,7 +1,7 @@
-﻿using TechChallenge.SDK.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TechChallenge.SDK.Domain.Models;
 
-namespace TechChallenge.SDK.Persistence
+namespace TechChallenge.SDK.Infrastructure.Persistence
 {
     public partial class ContactsDBContext : DbContext
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TechChallenge.SDK.ValueObjects
+namespace TechChallenge.SDK.Domain.ValueObjects
 {
     public class Email
     {

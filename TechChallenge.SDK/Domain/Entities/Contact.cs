@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
-using TechChallenge.SDK.ValueObjects;
+using TechChallenge.SDK.Domain.ValueObjects;
 
-namespace TechChallenge.SDK.Models
+namespace TechChallenge.SDK.Domain.Models
 {
     public partial class Contact
     {

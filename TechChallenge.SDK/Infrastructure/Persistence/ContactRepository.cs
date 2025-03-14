@@ -1,7 +1,7 @@
 ﻿using Polly;
-using TechChallenge.SDK.Models;
+using TechChallenge.SDK.Domain.Models;
 
-namespace TechChallenge.SDK.Persistence
+namespace TechChallenge.SDK.Infrastructure.Persistence
 {
     public class ContactRepository : IContactRepository
     {

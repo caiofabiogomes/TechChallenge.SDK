@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TechChallenge.SDK.Persistence;
+using TechChallenge.SDK.Infrastructure.Persistence;
 
 namespace TechChallenge.SDK
 {
