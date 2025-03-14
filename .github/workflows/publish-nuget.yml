@@ -87,7 +87,7 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git tag "v${{ env.PACKAGE_VERSION }}"
-        git remote set-url origin https://x-access-token:${{ GITHUB_TOKEN }}@github.com/caiofabiogomes/TechChallenge.SDK.git
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/caiofabiogomes/TechChallenge.SDK.git
         git push origin "v${{ env.PACKAGE_VERSION }}"
 
 
