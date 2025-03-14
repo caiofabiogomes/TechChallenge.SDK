@@ -76,7 +76,7 @@ jobs:
       run: dotnet pack --configuration Release --no-build --output ${{ env.PACKAGE_OUTPUT_DIR }} --property:Version=${{ env.PACKAGE_VERSION }}
 
     - name: Push to GitHub Packages
-      run: dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIR }}/*.nupkg" --source github
+      run: dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIR }}/*.nupkg" --source github --skip-duplicate
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
