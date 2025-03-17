@@ -7,17 +7,15 @@ namespace TechChallenge.SDK
 {
     public static class SdkModule
     {
-        public static IServiceCollection RegisterSdkModule(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterSdkModule(this IServiceCollection services, string connectionString)
         {
             return services
-                    .AddPersistence(configuration)
+                    .AddPersistence(connectionString)
                     .RegisterRepositories();
         }
 
-        private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString)
         {
-            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_DATABASE") ?? configuration.GetConnectionString("DefaultConnection");
-
             services.AddDbContext<ContactsDBContext>(options => options.UseSqlServer(connectionString));
 
             return services;
