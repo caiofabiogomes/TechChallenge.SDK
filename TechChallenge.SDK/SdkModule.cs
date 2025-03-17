@@ -16,7 +16,7 @@ namespace TechChallenge.SDK
 
         private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_DATABASE") ?? configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ContactsDBContext>(options => options.UseSqlServer(connectionString));
 
